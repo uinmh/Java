@@ -75,7 +75,7 @@ public class ContactMain04 {
     private void updateContact() {
 
         System.out.println("*** 연락처 (수정)업데이트 ***");
-        System.out.println("수정할 연락처 목록 번호 >> ");
+        System.out.print("수정할 연락처 목록 번호 >> ");
         int index = inputNumber();
 
         if (dao.read(index) == null) {
@@ -143,12 +143,15 @@ public class ContactMain04 {
 
     private void select() {
 
-        List<Contact> contact = dao.read();
-        System.out.println(" *** 연락처 목록 ***");
-        for (Contact c : contact) {
-            System.out.println(c);
-        }
-        System.out.println("********************");
+        List<Contact> contacts = dao.read();
+        System.out.println("--- 연락처 리스트 ---");
+//      for (Contact c : contacts) {
+//          System.out.println(c);
+//      }
+      for (int i = 0; i < contacts.size(); i++) {
+          System.out.println("[" + (i) + "] " + contacts.get(i));
+      }
+      System.out.println("---------------------");
 
     }
 

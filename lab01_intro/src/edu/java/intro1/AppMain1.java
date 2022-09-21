@@ -18,7 +18,7 @@ public class AppMain1 {
 //		    }
 //		    System.out.println();
 		    
-		for (int a = 0; a < 5; a++) {
+		for (int a = 0; a < 7; a++) {
 		    for (int b = 4; b > 0; b--) {
 		        if(a < b) {
 		        System.out.print(" ");
