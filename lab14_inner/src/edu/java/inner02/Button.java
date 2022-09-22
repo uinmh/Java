@@ -23,7 +23,7 @@ public class Button {
     }
     
     public void click() {
-        System.out.println(btName + " 버튼 :");
+        System.out.println(btName + " 버튼 : ");
         listener.onClick();
     }
 }

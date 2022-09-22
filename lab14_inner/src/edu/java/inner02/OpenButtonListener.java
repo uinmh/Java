@@ -7,6 +7,6 @@ public class OpenButtonListener implements OnclickListener {
     
     @Override
     public void onClick() {
-        System.out.print("파일열기");
+        System.out.println("파일 열기");
     }
 }
