@@ -33,6 +33,7 @@ public class LamdaMain01 {
                 return x * y;
             }
         };
+   
         result = multiplier.calculate(1, 2);
         System.out.println(result);
     
@@ -81,9 +82,14 @@ public class LamdaMain01 {
         Printable printer3 = System.out::println;      // < ---
         
         printer3.print("Hello Lambda!");
+       
         
         
-//        Mapper mapper = s -> s.length();// 문자열이 들어갔을때 문자열의 갯수를 나타냄
+        // 메서드 참조 2:
+        // 람다 표현식에서 파라미터가 1개이고, 메서드 body의 실행문장도 1개인 경우
+        // 문자열이 들어갔을때 문자열의 갯수를 나타냄
+        // 그 실행 문장이 파라미터의 메서드를 호출하는 경우.
+//        Mapper mapper = s -> s.length();
         Mapper mapper = String :: length;
         System.out.println(mapper.map("olleh"));
         
