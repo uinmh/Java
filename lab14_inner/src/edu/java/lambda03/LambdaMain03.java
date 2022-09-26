@@ -27,7 +27,9 @@ public class LambdaMain03 {
         System.out.println(evens);
 
         // 스트림 방식
-        List<Integer> evens2 = numbers.stream().filter(x -> x % 2 == 0).collect(Collectors.toList());
+        List<Integer> evens2 = numbers.stream()
+                .filter(x -> x % 2 == 0)
+                .collect(Collectors.toList());
 
         System.out.println("evens2 = " + evens2);
 
@@ -39,12 +41,17 @@ public class LambdaMain03 {
         }
         System.out.println("odds for-each = " + odds);
 
-        List<Integer> odds2 = numbers.stream().filter(x -> x % 2 == 1).collect(Collectors.toList());
+        List<Integer> odds2 = numbers.stream()
+                .filter(x -> x % 2 == 1)
+                .collect(Collectors.toList());
 
         System.out.println("odds Stream = " + odds2);
 
         // numbers에서 짝수들의 제곱을 저장하는 리스트
-        List<Integer> result = numbers.stream().filter(x -> x % 2 == 0).map(x -> x * x).collect(Collectors.toList());
+        List<Integer> result = numbers.stream()
+                .filter(x -> x % 2 == 0)
+                .map(x -> x * x)
+                .collect(Collectors.toList());
         System.out.println(result);
 
         List<Integer> result1 = numbers.stream()

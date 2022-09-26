@@ -10,13 +10,6 @@ public class Employee { // 직원
     
     public Employee() {}
 
-    /**
-     * @param empId
-     * @param name
-     * @param job
-     * @param dept
-     * @param salary
-     */
     public Employee(Integer empId, String name, String job, String dept, Integer salary) {
         this.empId = empId;
         this.name = name;
@@ -65,10 +58,15 @@ public class Employee { // 직원
         this.salary = salary;
     }
 
+//    @Override
+//    public String toString() {
+//        return "Employee [empId=" + empId + ", name=" + name + ", job=" + job + ", dept=" + dept + ", salary=" + salary
+//                + "]";
+//    }
+    
     @Override
-    public String toString() {
-        return "Employee [empId=" + empId + ", name=" + name + ", job=" + job + ", dept=" + dept + ", salary=" + salary
-                + "]";
-    }
-
+        public String toString() {
+            return String.format("Employee(empId=%d,name=%s,job=%s,dept=%s,salary=%d)",
+                    empId,name,job,dept,salary);
+        }
 }
