@@ -7,12 +7,13 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultListModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AppMain08 {
+public class AppMain8_Copy {
 
     private JFrame frame;
     private JButton btnDelete;
@@ -32,7 +33,7 @@ public class AppMain08 {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    AppMain08 window = new AppMain08();
+                    AppMain8_Copy window = new AppMain8_Copy();
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -44,7 +45,7 @@ public class AppMain08 {
     /**
      * Create the application.
      */
-    public AppMain08() {
+    public AppMain8_Copy() {
         initialize();
     }
 
@@ -68,7 +69,7 @@ public class AppMain08 {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                inputlist();
+                addItemToList();
 
             }
         });
@@ -98,25 +99,48 @@ public class AppMain08 {
         scrollPane.setViewportView(list);
     }
 
+    protected void addItemToList() {
+        
+        // JTextField에 입력된 내용을 읽음.
+        String input = textField.getText();
+        
+        //JTextFeild에 입력된 내용이 없는 경우 getText() 메서드는 빈 문자열("")을 리턴!
+        
+        if(input.equals("")) {
+            JOptionPane.showMessageDialog(frame, 
+                    "입력된 내용이 없습니다.",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return; // 배열이 생성되지 않게 리턴. addItemToList 종료..
+        }
+        // 리스트에 새로운 원소를 추가
+        listmodel.addElement(input);
+     
+        // JTextField를 초기화 - 입력된 내용 지우기.
+        textField.setText("");
+    }
+
     private void deletelist() {
         
-        try {
+        //JList에서 선택된 원소의 인덱스를 찾음.        
+        
         int index = list.getSelectedIndex();
-        listmodel.remove(index);
-        if (index == listmodel.getSize()) {
-            index--;
+        
+        if (index == -1) { // JList에서 선택된 원소가 없을때
+            JOptionPane.showMessageDialog(frame,
+                    "리스트에서 삭제할 원소를 반드시 선택해주세요.",
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        list.setSelectedIndex(index);
-
-    }catch (Exception e) {
-        textField.setText("<<데이터 없음>>");
+        // 사용자에게 삭제 여부를 다시한번 확인
+        
+        int confirm = JOptionPane.showConfirmDialog(frame, "정말 삭제할까요?","삭제 확인",JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) { // 다이얼로그에서 Yes를 클릭했을때 
+         // DefaultListModel에서 특정 인덱스의 원소를 삭제하면 JList에서 그 원소가 자동으로 삭제
+            listmodel.remove(index);   
+        }
     }
 }
 
-    private void inputlist() {
-       
-        String s = textField.getText();
 
-        listmodel.addElement(s);
-    }
-}
