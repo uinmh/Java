@@ -2,20 +2,21 @@ package edu.java.swing05;
 
 import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 
 public class AppMain05 {
 
     private JFrame frame;
     private Component lblImage;
-
+    int i = 0;
     /**
      * Launch the application.
      */
@@ -48,11 +49,16 @@ public class AppMain05 {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         
-        JLabel lblImage = new JLabel(new ImageIcon("images/flower1.jpg"));
-        JLabel lblImage1 = new JLabel(new ImageIcon("images/flower2.jpg"));
-        JLabel lblImage2 = new JLabel(new ImageIcon("images/flower3.jpg"));
-        JLabel lblImage3 = new JLabel(new ImageIcon("images/flower4.jpg"));
-        JLabel lblImage4 = new JLabel(new ImageIcon("images/flower5.jpg"));
+        
+
+        ArrayList<String> images = new ArrayList<>(Arrays.asList(
+                "images/flower1.jpg","images/flower2.jpg"
+                ,"images/flower3.jpg","images/flower4.jpg"
+                ,"images/flower5.jpg"));
+        
+        JLabel lblImage = new JLabel(new ImageIcon(images.get(i)));
+        
+        
         lblImage.setBounds(12, 10, 584, 566);
         frame.getContentPane().add(lblImage);
         
@@ -60,7 +66,15 @@ public class AppMain05 {
         btnPrev.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
-                frame.getContentPane().add(lblImage4);
+                try {
+                    i += 1;
+                    ImageIcon test  = new ImageIcon(images.get(i));
+                    lblImage.setIcon(test);
+                    } catch (IndexOutOfBoundsException e1) {
+                        i = 0;
+                        ImageIcon test  = new ImageIcon(images.get(i));
+                        lblImage.setIcon(test);
+                    }
                 
             
             }
@@ -71,7 +85,16 @@ public class AppMain05 {
         JButton btnNext = new JButton("Next");
         btnNext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+           
+                try {
+                    i -= 1;
+                    ImageIcon test  = new ImageIcon(images.get(i));
+                    lblImage.setIcon(test);
+                    } catch (IndexOutOfBoundsException e1) {
+                        i = 4;
+                        ImageIcon test  = new ImageIcon(images.get(i));
+                        lblImage.setIcon(test);
+                    }
                 
                 
             }
