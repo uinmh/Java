@@ -3,6 +3,8 @@ package edu.java.ojdbc.view;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -17,6 +19,8 @@ import edu.java.ojdbc.controller.BlogDaoImpl;
 import edu.java.ojdbc.model.Blog;
 
 import static edu.java.ojdbc.model.Blog.Entity.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BlogMain {
     // 메인 화면에서 보여줄 JTable의 컬럼 이름들
@@ -89,6 +93,12 @@ public class BlogMain {
         buttonPanel.add(btnRead);
         
         JButton btnDelete = new JButton("삭제");
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                delete();
+            }
+        });
         btnDelete.setFont(new Font("맑은 고딕", Font.BOLD, 15));
         buttonPanel.add(btnDelete);
         
@@ -99,6 +109,33 @@ public class BlogMain {
         model = new DefaultTableModel(null, COLUMN_NAMES);
         table.setModel(model);
         scrollPane.setViewportView(table);
+    }
+
+    private void delete() {
+        
+        int row = table.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(frame,
+                    "삭제할 행을 먼저 선택 하세요.",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(frame,
+                "삭제 하시겠습니까",
+                "삭제 확인",
+                JOptionPane.YES_NO_OPTION);
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            dao.delete(row);
+        }
+        
+        // 테이블 갱신
+        model.removeRow(row);
+        
+        JOptionPane.showMessageDialog(frame, "삭제 완료!");
+        
+        
     }
 
 }
