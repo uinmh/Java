@@ -58,7 +58,6 @@ public class MemberDaoImpl implements MemberDao {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        
         try {
             conn = getConnection();
             stmt = conn.prepareStatement(SQL_SELECT);

@@ -43,7 +43,8 @@ public class BlogDaoImpl implements BlogDao {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    private void closeResources(Connection conn, Statement stmt) throws SQLException {
+    private void closeResources(Connection conn, Statement stmt) 
+            throws SQLException {
         stmt.close();
         conn.close();
     }
