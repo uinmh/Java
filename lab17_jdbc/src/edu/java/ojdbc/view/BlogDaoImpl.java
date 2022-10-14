@@ -1,4 +1,4 @@
-package edu.java.ojdbc.controller;
+package edu.java.ojdbc.view;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +13,7 @@ import java.util.Scanner;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import edu.java.ojdbc.controller.BlogDao;
 import edu.java.ojdbc.model.Blog;
 import edu.java.ojdbc.view.BlogMain;
 import oracle.jdbc.driver.OracleDriver;
@@ -218,6 +219,12 @@ public class BlogDaoImpl implements BlogDao {
             }
         }
         return 1;
+    }
+
+    @Override
+    public List<Blog> select(int type, String keyword) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

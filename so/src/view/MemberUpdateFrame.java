@@ -6,13 +6,26 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.MemberDao;
+import controller.MemberDaoImpl;
+import model.Member;
+
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
 
 public class MemberUpdateFrame extends JFrame {
 
@@ -23,7 +36,7 @@ public class MemberUpdateFrame extends JFrame {
     private Component parent;
     private MemberUpdateListener listener;
     private JTextField textmemId;
-    private JTextField textField;
+    private JTextField textJoinDay;
     private JLabel lblBirthDay;
     private JTextField textBirthDay;
     private JLabel lblName;
@@ -33,15 +46,18 @@ public class MemberUpdateFrame extends JFrame {
     private JLabel lblCity;
     private JTextField textCity;
     private JLabel lblQ;
-    
+    private MemberDaoImpl dao;
+    private Integer memNo;
+    private JTextArea textQ;
+    private JButton btnUpdate;
     /**
      * Launch the application.
      */
-    public static void newMemberUpdateFrame(Component parent, MemberUpdateListener listener) {
+    public static void newMemberUpdateFrame(Component parent, Integer memNo, MemberUpdateListener listener) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    MemberUpdateFrame frame = new MemberUpdateFrame(parent, listener);
+                    MemberUpdateFrame frame = new MemberUpdateFrame(parent, memNo, listener);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -50,23 +66,38 @@ public class MemberUpdateFrame extends JFrame {
         });
     }
 
-    public MemberUpdateFrame(Component parent, MemberUpdateListener listener) {
+    public MemberUpdateFrame(Component parent, Integer memNo, MemberUpdateListener listener) {
         this.parent = parent;
         this.listener = listener;
-        
+        this.memNo = memNo;
+        this.dao = MemberDaoImpl.getInstance();
         initialize();
-        
+        initializeMemberInfo();
     }
       
+    
+    void initializeMemberInfo() {
+    	Member member = dao.read(memNo);
+    	System.out.println(memNo);
+    	textmemId.setText(member.getMemberId().toString());
+    	textName.setText(member.getMemName());
+    	textPhone.setText(member.getMemPhone());
+    	textJoinDay.setText(member.getMemJoinDay().toString());
+    	textBirthDay.setText(member.getMemBirthDay().toString());
+    	textCity.setText(member.getMemCity());
+    	textQ.setText(member.getMemQ());
+    }
+    
+    
     /**
      * Create the frame.
      */
     public void initialize() {
-        setTitle("회원 정보 수정");
+        setTitle("회원 정보 자세히보기 /수정");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         int x = parent.getX();
         int y = parent.getY();
-        setBounds(x + 120, y + 50, 358, 383);
+        setBounds(x + 120, y + 50, 358, 430);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
       
@@ -92,11 +123,11 @@ public class MemberUpdateFrame extends JFrame {
         lblmemJoin.setBounds(178, 22, 61, 22);
         contentPane.add(lblmemJoin);
         
-        textField = new JTextField();
-        textField.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-        textField.setColumns(10);
-        textField.setBounds(241, 25, 80, 20);
-        contentPane.add(textField);
+        textJoinDay = new JTextField();
+        textJoinDay.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+        textJoinDay.setColumns(10);
+        textJoinDay.setBounds(241, 25, 80, 20);
+        contentPane.add(textJoinDay);
         
         lblBirthDay = new JLabel("생년월일");
         lblBirthDay.setHorizontalAlignment(SwingConstants.CENTER);
@@ -131,7 +162,7 @@ public class MemberUpdateFrame extends JFrame {
         textPhone = new JTextField();
         textPhone.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
         textPhone.setColumns(10);
-        textPhone.setBounds(72, 89, 70, 20);
+        textPhone.setBounds(72, 89, 100, 20);
         contentPane.add(textPhone);
         
         lblCity = new JLabel("지역");
@@ -156,9 +187,73 @@ public class MemberUpdateFrame extends JFrame {
         scrollPane.setBounds(12, 151, 318, 180);
         contentPane.add(scrollPane);
         
-        JTextArea textQ = new JTextArea();
+        textQ = new JTextArea();
         textQ.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
         scrollPane.setViewportView(textQ);
+        
+        btnUpdate = new JButton("업데이트");
+        btnUpdate.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        	MemberUpdate();
+        	}
+        });
+        btnUpdate.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+        btnUpdate.setBounds(67, 349, 95, 30);
+        contentPane.add(btnUpdate);
+        
+        JButton btnCancel = new JButton("취소");
+        btnCancel.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        	dispose();
+        	}
+        });
+        btnCancel.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+        btnCancel.setBounds(192, 349, 95, 30);
+        contentPane.add(btnCancel);
     
     }
+
+	private void MemberUpdate() {
+		
+        Date memJoinDay = Date.valueOf(textJoinDay.getText());
+        Date memBirthDay = Date.valueOf(textBirthDay.getText());
+        String memName = textName.getText();
+        String memPhone = textPhone.getText();
+        String memCity = textCity.getText();
+        String memQ = textQ.getText();
+//        Integer memId = Integer.parseInt(textmemId.getText());
+        		
+        if (memJoinDay.equals("") || memBirthDay.equals("")|| memName.equals("") || memPhone.equals("")
+        		|| memCity.equals("") || memQ.equals("")){
+            JOptionPane.showMessageDialog(this, 
+                    "빈 항목이 존재 합니다.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        Member member = new Member(memNo, memJoinDay, memBirthDay, memName, memPhone, memCity, memQ);
+        
+        // DAO의 메서드를 사용해서 연락처 정보 (파일) 업데이트.
+       int result = dao.update(member);
+        if (result == 1) {
+        	
+               dispose();
+
+            listener.MemberUpdate();
+            
+            JOptionPane.showMessageDialog(parent, 
+                    "업데이트 성공", 
+                    "Success", 
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(parent, 
+                    "업데이트 실패", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+		
+	}
 }
