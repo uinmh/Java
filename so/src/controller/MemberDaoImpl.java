@@ -209,9 +209,33 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int delete(Integer mem) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delete(Integer memNo) {
+		int result = 0;
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = getConnection();
+			
+			stmt = conn.prepareStatement(SQL_DELETE);
+			stmt.setInt(1, memNo);
+			
+			result = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				closeResources(conn, stmt);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
 	}
 
 	@Override

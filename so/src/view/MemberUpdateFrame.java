@@ -216,7 +216,7 @@ public class MemberUpdateFrame extends JFrame {
     }
 
 	private void MemberUpdate() {
-		
+		try {
         Date memJoinDay = Date.valueOf(textJoinDay.getText());
         Date memBirthDay = Date.valueOf(textBirthDay.getText());
         String memName = textName.getText();
@@ -226,19 +226,23 @@ public class MemberUpdateFrame extends JFrame {
 //        Integer memId = Integer.parseInt(textmemId.getText());
         		
         if (memJoinDay.equals("") || memBirthDay.equals("")|| memName.equals("") || memPhone.equals("")
-        		|| memCity.equals("") || memQ.equals("")){
+        		|| memCity.equals("") || memQ.equals("") || memJoinDay.equals("yyyy-mm-dd")){
             JOptionPane.showMessageDialog(this, 
                     "빈 항목이 존재 합니다.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
+            
             return;
+            
+            
         }
-        
+
         Member member = new Member(memNo, memJoinDay, memBirthDay, memName, memPhone, memCity, memQ);
         
         // DAO의 메서드를 사용해서 연락처 정보 (파일) 업데이트.
        int result = dao.update(member);
-        if (result == 1) {
+     
+       if (result == 1) {
         	
                dispose();
 
@@ -254,6 +258,16 @@ public class MemberUpdateFrame extends JFrame {
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
         }
+		} catch (Exception e) {
+//			e.printStackTrace();
+			   JOptionPane.showMessageDialog(this, 
+	                    "YYYY-MM-DD 로 입력해주세요.",
+	                    "Error",
+	                    JOptionPane.ERROR_MESSAGE);
+	            
+	            return;
+		}
 		
+      		
 	}
 }

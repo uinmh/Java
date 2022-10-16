@@ -156,6 +156,7 @@ public class MemberSignFrame extends JFrame {
 
     private void memberInsert() {
        
+    try {
         Date memBirthDay = Date.valueOf(textBirthday.getText());
         String memName = textName.getText();
         String memPhone = textPhone.getText();
@@ -186,5 +187,14 @@ public class MemberSignFrame extends JFrame {
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
         }
+      }catch (Exception e) {
+    	  
+    	  JOptionPane.showMessageDialog(this, 
+                  "YYYY-MM-DD 로 입력해주세요.",
+                  "Error",
+                  JOptionPane.ERROR_MESSAGE);
+          
+          return;
+      }
     }
 }

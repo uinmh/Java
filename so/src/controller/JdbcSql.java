@@ -21,11 +21,11 @@ public interface JdbcSql {
     String SQL_UPDATE = String.format(
                     "update %s set %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? where %s = ?",
                     TBL_MEMBERLIST, COL_MEM_JOINDAY, COL_MEM_BIRTHDAY, COL_MEM_NAME,COL_MEM_PHONE,COL_MEM_CITY,COL_MEM_Q,COL_MEM_ID);
-//  블로그 글 삭제
-//    String SQL_DELETE = String.format(
-//                    "delete from %s where %s = ?",
-//                    TBL_BLOGS, COL_BLOG_NO);
-//    
+//  멤버 삭제
+    String SQL_DELETE = String.format(
+                    "delete from %s where %s = ?",
+                    TBL_MEMBERLIST, COL_MEM_ID);
+    
 //  이름으로 검색하기
     String SQL_SELECT_BY_NAME = String.format(
             "select * from %s where lower(%s) like ? order by %s desc",

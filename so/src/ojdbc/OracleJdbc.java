@@ -6,9 +6,9 @@ public interface OracleJdbc {
                                
     
    
-    String USER = "scott";
+    String USER = "SCOTT";
     
     // Oracle DB에 접속하는 사용자 비밀번호
     
-    String PASSWORD = "tiger";
+    String PASSWORD = "TIGER";
 }

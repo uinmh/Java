@@ -101,7 +101,7 @@ public class MemberDetailFrame extends JFrame
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         int x = parent.getX();
         int y = parent.getY();
-        setBounds(x + 50, y + 50, 600, 540);
+        setBounds(x + 50, y + 50, 600, 574);
         contentPane = new JPanel();
         contentPane.setAlignmentX(Component.RIGHT_ALIGNMENT);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -116,12 +116,12 @@ public class MemberDetailFrame extends JFrame
             showUpdateFrame();
             }
         });
-        btnUpdateMem.setBounds(12, 448, 129, 27);
+        btnUpdateMem.setBounds(123, 485, 110, 31);
         contentPane.add(btnUpdateMem);
         btnUpdateMem.setFont(new Font("맑은 고딕", Font.BOLD, 13));
         
         comboBox = new JComboBox<>();
-        comboBox.setBounds(146, 448, 93, 27);
+        comboBox.setBounds(113, 448, 93, 27);
         comboBox.setFont(new Font("맑은 고딕", Font.BOLD, 13));
         
         String[] comboBoxItems = { "이름", "지역", "전화번호", "가입일", "생년월일"};
@@ -131,7 +131,7 @@ public class MemberDetailFrame extends JFrame
         contentPane.add(comboBox);
         
         textKeyword = new JTextField();
-        textKeyword.setBounds(243, 448, 178, 27);
+        textKeyword.setBounds(210, 448, 178, 27);
         contentPane.add(textKeyword);
         textKeyword.setToolTipText("입력하세요.");
         textKeyword.setHorizontalAlignment(SwingConstants.LEFT);
@@ -144,7 +144,7 @@ public class MemberDetailFrame extends JFrame
                 searchMemberByKeyword();
             }
         });
-        btnSearch.setBounds(428, 448, 63, 29);
+        btnSearch.setBounds(395, 448, 63, 29);
         contentPane.add(btnSearch);
         btnSearch.setFont(new Font("맑은 고딕", Font.BOLD, 13));
         
@@ -162,7 +162,7 @@ public class MemberDetailFrame extends JFrame
         lblNewLabel.setBounds(184, 11, 198, 21);
         contentPane.add(lblNewLabel);
         
-        JButton btnNewButton = new JButton("F5");
+        JButton btnNewButton = new JButton("새로고침");
         btnNewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -170,22 +170,63 @@ public class MemberDetailFrame extends JFrame
             }
         });
         btnNewButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-        btnNewButton.setBounds(503, 448, 69, 29);
+        btnNewButton.setBounds(479, 8, 93, 29);
         contentPane.add(btnNewButton);
         
-        JButton btnNewButton_1 = new JButton("+");
+        JButton btnNewButton_1 = new JButton("신규 생성");
         btnNewButton_1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                MemberSignFrame.newMemberSignFrame(MemberDetailFrame.this,MemberDetailFrame.this);
             }
         });
-        btnNewButton_1.setFont(new Font("굴림", Font.BOLD, 9));
-        btnNewButton_1.setBounds(529, 4, 43, 31);
+        btnNewButton_1.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+        btnNewButton_1.setBounds(245, 485, 95, 31);
         contentPane.add(btnNewButton_1);
+        
+        JButton btnDelete = new JButton("삭제");
+        btnDelete.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		memberDelete();
+        	}
+        });
+        btnDelete.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+        btnDelete.setBounds(352, 485, 95, 31);
+        contentPane.add(btnDelete);
     }
 
-    private void searchMemberByKeyword() {
+    private void memberDelete() {
+		
+        int row = table.getSelectedRow();
+        if (row == -1) { 
+            JOptionPane.showMessageDialog(MemberDetailFrame.this, 
+                    "삭제할 행을 먼저 선택하세요",
+                    "Warning", // 타이틀 
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // 삭제할 CID
+        Integer memNo = (Integer) model.getValueAt(row, 0);
+        int confirm = JOptionPane.showConfirmDialog(MemberDetailFrame.this, 
+                "선택한 정보를 삭제 하시겠습니까?",
+                "삭제 확인",
+                JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+         
+            int result = dao.delete(memNo);
+            if (result == 1) {
+                initializeTable();
+                JOptionPane.showMessageDialog(MemberDetailFrame.this, "삭제 성공");
+            } else {
+                JOptionPane.showMessageDialog(MemberDetailFrame.this, "삭제 실패");
+            }
+        }
+		
+	}
+
+	private void searchMemberByKeyword() {
         String keyword = textKeyword.getText();
         if (keyword.equals("")) { 
             JOptionPane.showMessageDialog(MemberDetailFrame.this,    

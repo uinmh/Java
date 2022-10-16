@@ -14,7 +14,7 @@ public interface MemberDao {
     
     int update (Member mem);
     
-    int delete(Integer mem);
+    int delete(Integer memNo);
     
     List<Member> read(int type, String keyword);
     
